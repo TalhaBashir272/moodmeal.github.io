@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Meal</title>
+  <link rel="stylesheet" href="moodmeal_app_prototype.css">
+</head>
+<body>
+  
+
+
+<div id="moodmeal-root">
+  <div class="phone-shell">
+
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-icons">
+        <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+        <i class="ti ti-battery-2" style="font-size:14px" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div id="screen-home" class="screen active">
+      <div class="screen-header">
+        <div class="brand-logo">Mood<span>Meal</span></div>
+        <div class="greeting">What are you <em>craving</em> today?</div>
+      </div>
+
+      <div class="scrollable-area">
+        <div class="mood-strip">
+          <div class="mood-strip-label">your mood right now</div>
+          <div class="mood-chips">
+            <button class="mood-chip chip-happy" onclick="selectMood('Happy 😄')">😄 Happy</button>
+            <button class="mood-chip chip-hungry" onclick="selectMood('Hungry 🤤')">🤤 Hungry</button>
+            <button class="mood-chip chip-stressed" onclick="selectMood('Stressed 😤')">😤 Stressed</button>
+            <button class="mood-chip chip-tired" onclick="selectMood('Tired 😴')">😴 Tired</button>
+            <button class="mood-chip chip-chill" onclick="selectMood('Chill 😌')">😌 Chill</button>
+          </div>
+        </div>
+
+        <div class="cta-banner" onclick="goQuiz()">
+          <div>
+            <div class="cta-text">Get my perfect<br>meal match</div>
+            <div class="cta-sub">Answer 4 quick questions</div>
+            <button class="cta-btn">Start quiz ↗</button>
+          </div>
+          <div class="cta-icon">🍽️</div>
+        </div>
+
+        <div class="trending-section">
+          <div class="section-title">Trending in Islamabad 🔥</div>
+          <div class="food-cards-row">
+            <div class="food-card">
+              <span class="food-emoji">🍛</span>
+              <div class="food-name">Biryani</div>
+              <div class="food-tag">Rice • Spicy</div>
+            </div>
+            <div class="food-card">
+              <span class="food-emoji">🌯</span>
+              <div class="food-name">Shawarma</div>
+              <div class="food-tag">Wrap • Savory</div>
+            </div>
+            <div class="food-card">
+              <span class="food-emoji">🍔</span>
+              <div class="food-name">Zinger</div>
+              <div class="food-tag">Burger • Crispy</div>
+            </div>
+            <div class="food-card">
+              <span class="food-emoji">🫕</span>
+              <div class="food-name">Karahi</div>
+              <div class="food-tag">Gravy • Rich</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trending-section">
+          <div class="section-title">Quick picks 🎯</div>
+          <div class="food-cards-row">
+            <div class="food-card">
+              <span class="food-emoji">🥚</span>
+              <div class="food-name">Egg Paratha</div>
+              <div class="food-tag">Light • Rs 80</div>
+            </div>
+            <div class="food-card">
+              <span class="food-emoji">🍜</span>
+              <div class="food-name">Noodles</div>
+              <div class="food-tag">Quick • Rs 150</div>
+            </div>
+            <div class="food-card">
+              <span class="food-emoji">🫓</span>
+              <div class="food-name">Sandwich</div>
+              <div class="food-tag">Easy • Rs 120</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <button class="nav-item active"><i class="ti ti-home" aria-hidden="true"></i>Home</button>
+        <button class="nav-item" onclick="goQuiz()"><i class="ti ti-sparkles" aria-hidden="true"></i>Discover</button>
+        <button class="nav-item"><i class="ti ti-heart" aria-hidden="true"></i>Saved</button>
+        <button class="nav-item"><i class="ti ti-user" aria-hidden="true"></i>Profile</button>
+      </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="screen-quiz" class="screen">
+      <div class="screen-title-bar">
+        <div class="btn-icon" onclick="quizBack()"><i class="ti ti-arrow-left" aria-hidden="true"></i></div>
+        <div class="screen-title-text">Find my meal</div>
+      </div>
+
+      <div class="quiz-wrap">
+        <div class="quiz-progress" id="quiz-progress"></div>
+        <div id="quiz-body"></div>
+
+        <div class="quiz-nav">
+          <button class="btn-back" onclick="quizBack()"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+          <button class="btn-next" id="btn-next" onclick="quizNext()">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="screen-results" class="screen">
+      <div class="results-header">
+        <div class="results-label">Your match is ready 🎉</div>
+        <div class="results-title" id="result-headline">Perfect for your mood</div>
+      </div>
+
+      <div class="scrollable-area">
+        <div style="height: 16px;"></div>
+
+        <div class="main-rec-card">
+          <span class="rec-emoji-big" id="res-emoji">🍛</span>
+          <div class="rec-dish-name" id="res-name">Chicken Biryani</div>
+          <div class="rec-tags" id="res-tags"></div>
+          <div class="why-box">
+            <div class="why-title">Why we picked this</div>
+            <div id="res-why"></div>
+          </div>
+          <div class="rec-actions">
+            <button class="act-btn act-primary"><i class="ti ti-map-pin" aria-hidden="true"></i>Order nearby</button>
+            <button class="act-btn act-secondary"><i class="ti ti-chef-hat" aria-hidden="true"></i>Recipe</button>
+            <button class="act-btn act-ghost"><i class="ti ti-bookmark" aria-hidden="true"></i>Save</button>
+          </div>
+        </div>
+
+        <div class="alt-section">
+          <div class="alt-title">Alternatives</div>
+          <div class="alt-cards" id="alt-cards"></div>
+        </div>
+
+        <button class="back-home-btn" onclick="goHome()"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to home</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const quizSteps = [
+  {
+    q: "How hungry are you?",
+    hint: "This helps us match your portion size",
+    opts: [
+      { e: "😌", t: "Peckish", v: "low" },
+      { e: "🙂", t: "Moderately hungry", v: "mid" },
+      { e: "😤", t: "Very hungry", v: "high" },
+      { e: "😵", t: "Starving!", v: "extreme" }
+    ]
+  },
+  {
+    q: "Sweet or savory?",
+    hint: "What's your taste calling for?",
+    opts: [
+      { e: "🍰", t: "Sweet please", v: "sweet" },
+      { e: "🧀", t: "Savory all day", v: "savory" },
+      { e: "🤷", t: "Either works", v: "any" },
+      { e: "🌶️", t: "Spicy!", v: "spicy" }
+    ]
+  },
+  {
+    q: "Light or filling?",
+    hint: "How heavy do you want your meal to feel?",
+    opts: [
+      { e: "🥗", t: "Light & fresh", v: "light" },
+      { e: "🍽️", t: "Something filling", v: "heavy" },
+      { e: "🍱", t: "Balanced meal", v: "balanced" }
+    ]
+  },
+  {
+    q: "Your budget?",
+    hint: "Enter your max budget in Pakistani Rupees",
+    type: "budget"
+  }
+];
+
+let currentStep = 0;
+let answers = {};
+let selectedMoodGlobal = null;
+
+function selectMood(m) {
+  selectedMoodGlobal = m;
+  answers.mood = m;
+  goQuiz();
+}
+
+function goQuiz() {
+  currentStep = 0;
+  renderQuiz();
+  showScreen('quiz');
+}
+
+function goHome() {
+  showScreen('home');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function renderQuiz() {
+  const step = quizSteps[currentStep];
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = quizSteps.map((_, i) =>
+    `<div class="prog-dot ${i <= currentStep ? 'done' : ''}"></div>`
+  ).join('');
+
+  const body = document.getElementById('quiz-body');
+  const isLast = currentStep === quizSteps.length - 1;
+
+  let html = `<div class="quiz-q">${step.q}</div><div class="quiz-hint">${step.hint || ''}</div>`;
+
+  if (step.type === 'budget') {
+    const prev = answers.budget || '500';
+    html += `<div class="budget-input">
+      <div class="budget-rs">Rs</div>
+      <input class="budget-field" type="number" id="budget-val" value="${prev}" placeholder="500" min="50" oninput="answers.budget=this.value" />
+    </div>`;
+  } else {
+    html += `<div class="quiz-options">`;
+    step.opts.forEach((o, i) => {
+      const sel = answers['step_' + currentStep] === o.v;
+      html += `<button class="quiz-opt ${sel ? 'selected' : ''}" onclick="selectOpt(${i}, '${o.v}')">
+        <span class="opt-emoji">${o.e}</span>${o.t}
+      </button>`;
+    });
+    html += `</div>`;
+  }
+
+  body.innerHTML = html;
+
+  const btn = document.getElementById('btn-next');
+  btn.textContent = isLast ? 'Find my meal 🍽️' : 'Continue';
+}
+
+function selectOpt(idx, val) {
+  answers['step_' + currentStep] = val;
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o, i) => o.classList.toggle('selected', i === idx));
+}
+
+function quizNext() {
+  const step = quizSteps[currentStep];
+  if (step.type !== 'budget' && !answers['step_' + currentStep]) return;
+
+  if (currentStep < quizSteps.length - 1) {
+    currentStep++;
+    renderQuiz();
+  } else {
+    showResults();
+  }
+}
+
+function quizBack() {
+  if (currentStep === 0) {
+    showScreen('home');
+  } else {
+    currentStep--;
+    renderQuiz();
+  }
+}
+
+const recommendations = {
+  spicy: { name: "Chicken Biryani", emoji: "🍛", tags: ["Spicy","Filling","Rs 350","#1 Fave"], why: ["Matches your hunger level","Packed with bold spices","Well within budget","High satisfaction rating"], alts: [{e:"🌯",n:"Shawarma",p:"Rs 280"},{e:"🍔",n:"Zinger Burger",p:"Rs 320"},{e:"🫕",n:"Mutton Karahi",p:"Rs 450"}]},
+  savory: { name: "Chicken Shawarma", emoji: "🌯", tags: ["Savory","Quick","Rs 280","Street Fave"], why: ["Savory cravings satisfied","Fast & fresh","Budget-friendly pick","Loved by locals"], alts: [{e:"🍛",n:"Biryani",p:"Rs 350"},{e:"🧆",n:"Falafel Wrap",p:"Rs 200"},{e:"🥙",n:"Chicken Roll",p:"Rs 180"}]},
+  sweet: { name: "Chocolate Waffle", emoji: "🧇", tags: ["Sweet","Indulgent","Rs 250","Dessert"], why: ["Sweet tooth satisfied","Mood-boosting treat","Comfort food vibes","Great for a quick fix"], alts: [{e:"🍮",n:"Kheer",p:"Rs 120"},{e:"🍩",n:"Donuts",p:"Rs 180"},{e:"🧁",n:"Cupcake",p:"Rs 150"}]},
+  light: { name: "Grilled Chicken Salad", emoji: "🥗", tags: ["Light","Healthy","Rs 320","Fresh"], why: ["Light on the stomach","Nutritious & fresh","Good energy levels","Perfect for your mood"], alts: [{e:"🫓",n:"Club Sandwich",p:"Rs 220"},{e:"🥚",n:"Egg Paratha",p:"Rs 80"},{e:"🍜",n:"Veggie Noodles",p:"Rs 150"}]},
+  default: { name: "Chicken Biryani", emoji: "🍛", tags: ["Spicy","Filling","Rs 350","Crowd Pleaser"], why: ["Suits your mood perfectly","Rich, satisfying flavors","Great value for money","Always a safe bet"], alts: [{e:"🌯",n:"Shawarma",p:"Rs 280"},{e:"🍔",n:"Zinger",p:"Rs 320"},{e:"🫕",n:"Karahi",p:"Rs 450"}]}
+};
+
+function showResults() {
+  const taste = answers['step_1'];
+  const weight = answers['step_2'];
+  let rec = recommendations.default;
+  if (taste === 'spicy') rec = recommendations.spicy;
+  else if (taste === 'savory') rec = recommendations.savory;
+  else if (taste === 'sweet') rec = recommendations.sweet;
+  else if (weight === 'light') rec = recommendations.light;
+
+  document.getElementById('result-headline').textContent = selectedMoodGlobal
+    ? `Perfect for your ${selectedMoodGlobal.split(' ')[0].toLowerCase()} mood`
+    : "Perfect for your mood";
+
+  document.getElementById('res-emoji').textContent = rec.emoji;
+  document.getElementById('res-name').textContent = rec.name;
+
+  const tagColors = ['tag-spicy','tag-filling','tag-budget','tag-popular'];
+  document.getElementById('res-tags').innerHTML = rec.tags.map((t, i) =>
+    `<span class="tag ${tagColors[i % tagColors.length]}">${t}</span>`
+  ).join('');
+
+  document.getElementById('res-why').innerHTML = rec.why.map(r =>
+    `<div class="why-item"><i class="ti ti-circle-check why-check" aria-hidden="true"></i>${r}</div>`
+  ).join('');
+
+  document.getElementById('alt-cards').innerHTML = rec.alts.map(a =>
+    `<div class="alt-card"><span class="alt-emoji">${a.e}</span><div class="alt-name">${a.n}</div><div class="alt-price">${a.p}</div></div>`
+  ).join('');
+
+  showScreen('results');
+}
+</script>
+</body>
+</html>
